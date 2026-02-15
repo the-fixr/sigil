@@ -100,3 +100,79 @@ export async function getUserByFid(fid: number): Promise<{
     pfpUrl: user.pfp_url || '',
   };
 }
+
+/**
+ * Full user profile scan — bio, follower count, power badge, verified addresses.
+ */
+export interface UserProfile {
+  fid: number;
+  username: string;
+  displayName: string;
+  bio: string;
+  followers: number;
+  following: number;
+  pfpUrl: string;
+  powerBadge: boolean;
+  verifiedAddresses: string[];
+}
+
+export async function getUserProfile(fid: number): Promise<UserProfile | null> {
+  const res = await fetch(`${NEYNAR_API}/user/bulk?fids=${fid}`, {
+    headers: { accept: 'application/json', 'x-api-key': getApiKey() },
+  });
+
+  if (!res.ok) return null;
+
+  const data = await res.json();
+  const u = data.users?.[0];
+  if (!u) return null;
+
+  return {
+    fid: u.fid,
+    username: u.username,
+    displayName: u.display_name || u.username,
+    bio: u.profile?.bio?.text || '',
+    followers: u.follower_count || 0,
+    following: u.following_count || 0,
+    pfpUrl: u.pfp_url || '',
+    powerBadge: u.power_badge || false,
+    verifiedAddresses: [
+      ...(u.verified_addresses?.eth_addresses || []),
+      ...(u.verified_addresses?.sol_addresses || []),
+    ],
+  };
+}
+
+/**
+ * Fetch a user's recent casts (up to 15).
+ */
+export interface RecentCast {
+  text: string;
+  timestamp: string;
+  likes: number;
+  recasts: number;
+  replies: number;
+}
+
+export async function getUserRecentCasts(
+  fid: number,
+  limit = 15
+): Promise<RecentCast[]> {
+  const res = await fetch(
+    `${NEYNAR_API}/feed/user/casts?fid=${fid}&limit=${limit}&include_replies=false`,
+    { headers: { accept: 'application/json', 'x-api-key': getApiKey() } }
+  );
+
+  if (!res.ok) return [];
+
+  const data = await res.json();
+  const casts = data.casts || [];
+
+  return casts.map((c: Record<string, unknown>) => ({
+    text: (c.text as string) || '',
+    timestamp: (c.timestamp as string) || '',
+    likes: (c.reactions as { likes_count?: number })?.likes_count || 0,
+    recasts: (c.reactions as { recasts_count?: number })?.recasts_count || 0,
+    replies: (c.replies as { count?: number })?.count || 0,
+  }));
+}
