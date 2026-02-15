@@ -127,9 +127,18 @@ function ThemeToggle() {
   );
 }
 
+type Tab = 'home' | 'mint' | 'claim';
+
+const TABS: { id: Tab; label: string }[] = [
+  { id: 'home', label: 'Home' },
+  { id: 'mint', label: 'Mint' },
+  { id: 'claim', label: 'Claim' },
+];
+
 export default function Home() {
   const { connected } = useWallet();
   const { context, isLoaded, isInMiniApp } = useFrameSDK();
+  const [tab, setTab] = useState<Tab>('home');
   const [totalMinted, setTotalMinted] = useState(0);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [platformFee, setPlatformFee] = useState(50_000_000); // default tier 1 (0.05 SOL)
@@ -214,33 +223,56 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Tabs */}
+      <nav className="w-full max-w-lg flex items-center gap-1 mb-6 bg-surface rounded-xl border border-border p-1">
+        {TABS.map((t) => (
+          <button
+            key={t.id}
+            onClick={() => setTab(t.id)}
+            className={`flex-1 py-2 rounded-lg text-xs font-semibold transition-all ${
+              tab === t.id
+                ? 'bg-accent text-white shadow-sm'
+                : 'text-muted hover:text-foreground'
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </nav>
+
       {/* Content */}
       <div className="w-full max-w-lg space-y-6">
-        {/* Check-In (prominent, top section) */}
-        <CheckIn epochDay={today} billboardImageUrl={todayImageUrl} />
+        {/* Home tab: Check-in + Rewards */}
+        {tab === 'home' && (
+          <>
+            <CheckIn epochDay={today} billboardImageUrl={todayImageUrl} />
+            <RewardsClaim epochDay={today} />
+          </>
+        )}
 
-        {/* Mint Card */}
-        <MintCard
-          totalMinted={totalMinted}
-          onMinted={() => setTotalMinted((n) => n + 1)}
-        />
-
-        {/* Rewards */}
-        <RewardsClaim epochDay={today} />
-
-        {/* Calendar */}
-        <section>
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-semibold text-foreground">Billboard Calendar</h2>
-            <span className="text-xs text-muted font-mono">30 days</span>
-          </div>
-          <Calendar
-            key={calendarKey}
-            onSelectDay={setSelectedDay}
-            selectedDay={selectedDay}
-            onPlatformFeeLoaded={handlePlatformFeeLoaded}
+        {/* Mint tab */}
+        {tab === 'mint' && (
+          <MintCard
+            totalMinted={totalMinted}
+            onMinted={() => setTotalMinted((n) => n + 1)}
           />
-        </section>
+        )}
+
+        {/* Claim tab: Calendar + ClaimSheet trigger */}
+        {tab === 'claim' && (
+          <section>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-foreground">Billboard Calendar</h2>
+              <span className="text-xs text-muted font-mono">30 days</span>
+            </div>
+            <Calendar
+              key={calendarKey}
+              onSelectDay={setSelectedDay}
+              selectedDay={selectedDay}
+              onPlatformFeeLoaded={handlePlatformFeeLoaded}
+            />
+          </section>
+        )}
 
         {/* Footer */}
         <footer className="text-center py-6 space-y-2">
