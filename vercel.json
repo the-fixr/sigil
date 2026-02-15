@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/settle-day",
+      "schedule": "5 0 * * *"
+    },
+    {
+      "path": "/api/cron/notify",
+      "schedule": "10 0 * * *"
+    }
+  ]
+}
