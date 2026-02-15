@@ -1,0 +1,311 @@
+{
+  "version": "0.1.0",
+  "name": "sigil",
+  "instructions": [
+    {
+      "name": "initialize",
+      "docs": [
+        "Initialize the protocol. Called once by authority."
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "collectionMint",
+          "type": "publicKey"
+        },
+        {
+          "name": "incentiveWallet",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "claimDay",
+      "docs": [
+        "Claim a day on the calendar. Anyone can claim (advertiser).",
+        "Platform fee goes to treasury, incentive fee goes to incentive wallet",
+        "for later distribution to NFT holders who check in."
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "dayClaim",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "claimer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "treasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "incentiveWallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "epochDay",
+          "type": "i64"
+        },
+        {
+          "name": "incentiveAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateConfig",
+      "docs": [
+        "Update tier pricing. Authority only."
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "tier1",
+          "type": "u64"
+        },
+        {
+          "name": "tier2",
+          "type": "u64"
+        },
+        {
+          "name": "tier3",
+          "type": "u64"
+        },
+        {
+          "name": "tier4",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "recordMint",
+      "docs": [
+        "Record a mint. Called by authority after server-side Metaplex mint."
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateTreasury",
+      "docs": [
+        "Update treasury address. Authority only."
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newTreasury",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updateIncentiveWallet",
+      "docs": [
+        "Update incentive wallet address. Authority only."
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newIncentiveWallet",
+          "type": "publicKey"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "DayClaim",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "epochDay",
+            "type": "i64"
+          },
+          {
+            "name": "claimer",
+            "type": "publicKey"
+          },
+          {
+            "name": "claimedAt",
+            "type": "i64"
+          },
+          {
+            "name": "incentiveAmount",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Protocol",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          },
+          {
+            "name": "incentiveWallet",
+            "type": "publicKey"
+          },
+          {
+            "name": "collectionMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tier1Price",
+            "type": "u64"
+          },
+          {
+            "name": "tier2Price",
+            "type": "u64"
+          },
+          {
+            "name": "tier3Price",
+            "type": "u64"
+          },
+          {
+            "name": "tier4Price",
+            "type": "u64"
+          },
+          {
+            "name": "totalClaims",
+            "type": "u64"
+          },
+          {
+            "name": "totalMinted",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    },
+    {
+      "code": 6001,
+      "name": "DayNotFuture",
+      "msg": "Day must be in the future"
+    },
+    {
+      "code": 6002,
+      "name": "DayTooFarAhead",
+      "msg": "Day is more than 30 days ahead"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidTreasury",
+      "msg": "Invalid treasury account"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidIncentiveWallet",
+      "msg": "Invalid incentive wallet account"
+    },
+    {
+      "code": 6005,
+      "name": "IncentiveTooLow",
+      "msg": "Incentive amount below minimum (0.1 SOL)"
+    },
+    {
+      "code": 6006,
+      "name": "MaxSupplyReached",
+      "msg": "Max supply of 10,000 reached"
+    }
+  ]
+}
