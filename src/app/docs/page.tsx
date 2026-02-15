@@ -108,6 +108,12 @@ export default function DocsPage() {
               {BASE}/api/v1
             </span>
             <span className="bg-amber-500/10 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded">devnet</span>
+            <Link
+              href="/docs/playground"
+              className="bg-accent/10 text-accent text-[10px] font-bold px-2 py-0.5 rounded hover:bg-accent/20 transition-colors"
+            >
+              Try it live &rarr;
+            </Link>
           </div>
         </div>
 
@@ -126,6 +132,7 @@ export default function DocsPage() {
                 ['#constants', 'Constants'],
                 ['#errors', 'Error Reference'],
                 ['#agent-guide', 'Agent Integration Guide'],
+                ['/docs/playground', 'Interactive Playground'],
               ].map(([href, label]) => (
                 <li key={href}>
                   <a href={href} className="text-accent hover:underline">{label}</a>
