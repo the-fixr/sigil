@@ -187,6 +187,29 @@
           "type": "publicKey"
         }
       ]
+    },
+    {
+      "name": "closeProtocol",
+      "docs": [
+        "Close the protocol account. Authority only. Returns lamports to authority.",
+        "Uses raw AccountInfo to handle v1→v2 layout migration."
+      ],
+      "accounts": [
+        {
+          "name": "protocol",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "Validated by seed derivation and owner check."
+          ]
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [

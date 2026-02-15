@@ -4,7 +4,8 @@
  */
 import { Connection, Keypair, PublicKey } from '@solana/web3.js';
 import { AnchorProvider, Program, Idl } from '@coral-xyz/anchor';
-import bs58 from 'bs58';
+import * as bs58Module from 'bs58';
+const bs58 = (bs58Module as any).default || bs58Module;
 import * as fs from 'fs';
 import * as path from 'path';
 
