@@ -4,17 +4,19 @@ import { supabase } from '@/lib/supabase';
 import { cast } from '@/lib/neynar';
 import { postToChannel } from '@/lib/telegram';
 import { postToBluesky } from '@/lib/bluesky';
+import { postToLens } from '@/lib/lens';
 
 const LAMPORTS_PER_SOL = 1_000_000_000;
 
-/** Post to Farcaster, Telegram, and Bluesky in parallel. */
-async function broadcast(text: string, embeds?: { url: string }[]): Promise<{ fc: boolean; tg: boolean; bsky: boolean }> {
-  const [fcResult, tgResult, bskyResult] = await Promise.all([
+/** Post to Farcaster, Telegram, Bluesky, and Lens in parallel. */
+async function broadcast(text: string, embeds?: { url: string }[]): Promise<boolean> {
+  const [fcResult, tgResult, bskyResult, lensResult] = await Promise.all([
     cast({ text, embeds }),
     postToChannel(text),
     postToBluesky(text),
+    postToLens(text),
   ]);
-  return { fc: fcResult.success, tg: tgResult, bsky: bskyResult };
+  return fcResult.success || tgResult || bskyResult || lensResult;
 }
 
 /**
@@ -56,7 +58,7 @@ export async function POST(request: NextRequest) {
       const text = `Day ${yesterday} billboard by ${who} (${sol} SOL incentive).\n\nToday's billboard is open — claim it at sigil.bond`;
 
       const result = await broadcast(text, embeds);
-      if (result.fc || result.tg) posted.push('day_flip');
+      if (result) posted.push('day_flip');
     }
 
     // 2. Largest incentive ever — check if yesterday was a record
@@ -75,7 +77,7 @@ export async function POST(request: NextRequest) {
       const sol = (yesterdayClaim.incentive_lamports / LAMPORTS_PER_SOL).toFixed(2);
       const text = `New record! Day ${yesterday} set the highest incentive ever on Sigil: ${sol} SOL.\n\nsigil.bond`;
       const result = await broadcast(text);
-      if (result.fc || result.tg) posted.push('record_incentive');
+      if (result) posted.push('record_incentive');
     }
 
     // 3. Mint milestones
@@ -91,7 +93,7 @@ export async function POST(request: NextRequest) {
         // Check if we already posted this milestone (simple: skip if > 5 past it)
         const text = `${m} Sigils minted! The billboard grows.\n\nMint yours at sigil.bond`;
         const result = await broadcast(text);
-        if (result.fc || result.tg) posted.push(`milestone_${m}`);
+        if (result) posted.push(`milestone_${m}`);
         break; // only post one milestone per run
       }
     }
@@ -106,7 +108,7 @@ export async function POST(request: NextRequest) {
     if (checkInCount >= 50) {
       const text = `${checkInCount} holders checked in on Day ${yesterday}. The Sigil community is active.\n\nsigil.bond`;
       const result = await broadcast(text);
-      if (result.fc || result.tg) posted.push('high_checkins');
+      if (result) posted.push('high_checkins');
     }
 
     return NextResponse.json({ ok: true, posted, today, yesterday });

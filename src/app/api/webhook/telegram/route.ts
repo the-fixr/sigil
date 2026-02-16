@@ -77,7 +77,7 @@ async function handleHelp(chatId: number) {
     '/stats — Protocol numbers',
     '/help — This message',
     '',
-    `<a href=\"${SITE}\">sigil.bond</a>`,
+    `<a href="${SITE}">sigil.bond</a>`,
   ].join('\n');
 
   await sendMessage({ chatId, text });
@@ -115,7 +115,7 @@ async function handleToday(chatId: number) {
     lines.push(`Incentive: ${sol} SOL`);
   } else {
     lines.push('Billboard: <b>Unclaimed</b>');
-    lines.push(`Claim it at <a href=\"${SITE}\">sigil.bond</a>`);
+    lines.push(`Claim it at <a href="${SITE}">sigil.bond</a>`);
   }
 
   lines.push('');
@@ -140,7 +140,7 @@ async function handleMint(chatId: number) {
     '',
     'Holders can check in daily for revenue share when the billboard is claimed.',
     '',
-    `<a href=\"${SITE}\">Mint at sigil.bond</a>`,
+    `<a href="${SITE}">Mint at sigil.bond</a>`,
   ].join('\n');
 
   await sendMessage({ chatId, text });
@@ -167,7 +167,7 @@ async function handleLeaderboard(chatId: number) {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 10);
 
-  const medals = ['\ud83e\udd47', '\ud83e\udd48', '\ud83e\udd49'];
+  const medals = ['🥇', '🥈', '🥉'];
   const lines: string[] = ['<b>Top Check-in Holders</b>', ''];
 
   for (let i = 0; i < sorted.length; i++) {
@@ -178,7 +178,7 @@ async function handleLeaderboard(chatId: number) {
   }
 
   lines.push('');
-  lines.push(`<a href=\"${SITE}\">sigil.bond</a>`);
+  lines.push(`<a href="${SITE}">sigil.bond</a>`);
 
   await sendMessage({ chatId, text: lines.join('\n') });
 }
@@ -208,7 +208,7 @@ async function handleStats(chatId: number) {
     `Total check-ins: ${totalCheckIns.toLocaleString()}`,
     `Current epoch day: ${today}`,
     '',
-    `<a href=\"${SITE}\">sigil.bond</a>`,
+    `<a href="${SITE}">sigil.bond</a>`,
   ].join('\n');
 
   await sendMessage({ chatId, text });
