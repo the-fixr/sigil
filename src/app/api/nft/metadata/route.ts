@@ -1,17 +1,21 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { getServiceClient } from '@/lib/supabase';
 import { getCurrentEpochDay } from '@/lib/solana';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
     const today = getCurrentEpochDay();
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const supabase = getServiceClient();
 
-    // Look up today's claim
+    // Look up today's approved claim
     const { data: claim } = await supabase
       .from('day_claims')
       .select('*')
       .eq('epoch_day', today)
+      .eq('moderation_status', 'approved')
       .single();
 
     // Count check-ins for today
@@ -28,7 +32,7 @@ export async function GET() {
         name: 'Sigil',
         symbol: 'SIGIL',
         description: `A living NFT billboard. Today's advertiser: ${advertiser}. ${incentiveSol} SOL pool. ${checkInCount || 0} checked in.`,
-        image: claim?.image_url || `${baseUrl}/sigil.png`,
+        image: `${baseUrl}/api/nft/image`,
         external_url: baseUrl,
         attributes: [
           { trait_type: 'Type', value: 'Billboard NFT' },
@@ -41,7 +45,7 @@ export async function GET() {
       },
       {
         headers: {
-          'Cache-Control': 'public, max-age=300, s-maxage=300, stale-while-revalidate=60',
+          'Cache-Control': 'public, max-age=60, s-maxage=60, stale-while-revalidate=30',
         },
       }
     );

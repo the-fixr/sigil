@@ -282,7 +282,8 @@ export default function Home() {
             <a href="/privacy" className="hover:text-muted transition-colors">Privacy</a>
             <span>&middot;</span>
             <a href="/docs" className="hover:text-muted transition-colors">API Docs</a>
-            <span>&middot;</span>
+          </div>
+          <div className="flex items-center justify-center gap-3 text-[11px] text-muted/50">
             <a href="https://farcaster.xyz/sigilbond" target="_blank" rel="noopener noreferrer" className="hover:text-muted transition-colors">Farcaster</a>
             <span>&middot;</span>
             <a href="https://t.me/sigil_bond" target="_blank" rel="noopener noreferrer" className="hover:text-muted transition-colors">Telegram</a>

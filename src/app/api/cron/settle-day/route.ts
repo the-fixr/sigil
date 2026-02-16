@@ -2,7 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentEpochDay } from '@/lib/solana';
 import { getServiceClient } from '@/lib/supabase';
 
+// Vercel crons invoke GET
+export async function GET(request: NextRequest) {
+  return handleSettle(request);
+}
+
 export async function POST(request: NextRequest) {
+  return handleSettle(request);
+}
+
+async function handleSettle(request: NextRequest) {
   try {
     // Simple auth: check for cron secret
     const authHeader = request.headers.get('authorization');

@@ -23,11 +23,20 @@ async function broadcast(text: string, embeds?: { url: string }[]): Promise<bool
 
 /**
  * Notification cron — runs daily (or on demand).
- * Checks for notable events and posts to Farcaster as @sigilbond.
+ * Checks for notable events and broadcasts to all platforms.
  *
- * Trigger: Vercel cron or POST with CRON_SECRET
+ * Trigger: Vercel cron (GET) or manual POST with CRON_SECRET
  */
+// Vercel crons invoke GET
+export async function GET(request: NextRequest) {
+  return handleNotify(request);
+}
+
 export async function POST(request: NextRequest) {
+  return handleNotify(request);
+}
+
+async function handleNotify(request: NextRequest) {
   // Auth
   const authHeader = request.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
