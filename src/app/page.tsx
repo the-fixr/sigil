@@ -290,6 +290,8 @@ export default function Home() {
             <a href="https://bsky.app/profile/sigilbond.bsky.social" target="_blank" rel="noopener noreferrer" className="hover:text-muted transition-colors">Bluesky</a>
             <span>&middot;</span>
             <a href="https://hey.xyz/u/sigilbond" target="_blank" rel="noopener noreferrer" className="hover:text-muted transition-colors">Lens</a>
+            <span>&middot;</span>
+            <a href="https://discord.com/oauth2/authorize?client_id=1472771144435105812&permissions=2048&scope=bot%20applications.commands" target="_blank" rel="noopener noreferrer" className="hover:text-muted transition-colors">Discord</a>
           </div>
           <p className="text-[10px] text-muted/30">Billboard NFT on Solana &middot; devnet</p>
         </footer>

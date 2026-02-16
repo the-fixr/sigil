@@ -5,18 +5,20 @@ import { cast } from '@/lib/neynar';
 import { postToChannel } from '@/lib/telegram';
 import { postToBluesky } from '@/lib/bluesky';
 import { postToLens } from '@/lib/lens';
+import { postToDiscordSubscribers } from '@/lib/discord';
 
 const LAMPORTS_PER_SOL = 1_000_000_000;
 
-/** Post to Farcaster, Telegram, Bluesky, and Lens in parallel. */
+/** Post to Farcaster, Telegram, Bluesky, Lens, and Discord in parallel. */
 async function broadcast(text: string, embeds?: { url: string }[]): Promise<boolean> {
-  const [fcResult, tgResult, bskyResult, lensResult] = await Promise.all([
+  const [fcResult, tgResult, bskyResult, lensResult, discordResult] = await Promise.all([
     cast({ text, embeds }),
     postToChannel(text),
     postToBluesky(text),
     postToLens(text),
+    postToDiscordSubscribers(text),
   ]);
-  return fcResult.success || tgResult || bskyResult || lensResult;
+  return fcResult.success || tgResult || bskyResult || lensResult || discordResult;
 }
 
 /**
