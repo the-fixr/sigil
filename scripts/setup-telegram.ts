@@ -22,7 +22,7 @@ if (!BOT_TOKEN) {
   process.exit(1);
 }
 
-const WEBHOOK_URL = process.env.WEBHOOK_URL || 'https://sigil.bond/api/webhook/telegram';
+const WEBHOOK_URL = process.env.WEBHOOK_URL || 'https://www.sigil.bond/api/webhook/telegram';
 const SECRET = process.env.TELEGRAM_WEBHOOK_SECRET;
 
 async function main() {

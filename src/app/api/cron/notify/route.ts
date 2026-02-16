@@ -3,16 +3,18 @@ import { getCurrentEpochDay } from '@/lib/solana';
 import { supabase } from '@/lib/supabase';
 import { cast } from '@/lib/neynar';
 import { postToChannel } from '@/lib/telegram';
+import { postToBluesky } from '@/lib/bluesky';
 
 const LAMPORTS_PER_SOL = 1_000_000_000;
 
-/** Post to both Farcaster and Telegram channel. */
-async function broadcast(text: string, embeds?: { url: string }[]): Promise<{ fc: boolean; tg: boolean }> {
-  const [fcResult, tgResult] = await Promise.all([
+/** Post to Farcaster, Telegram, and Bluesky in parallel. */
+async function broadcast(text: string, embeds?: { url: string }[]): Promise<{ fc: boolean; tg: boolean; bsky: boolean }> {
+  const [fcResult, tgResult, bskyResult] = await Promise.all([
     cast({ text, embeds }),
     postToChannel(text),
+    postToBluesky(text),
   ]);
-  return { fc: fcResult.success, tg: tgResult };
+  return { fc: fcResult.success, tg: tgResult, bsky: bskyResult };
 }
 
 /**

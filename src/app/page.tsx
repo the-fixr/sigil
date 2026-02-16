@@ -63,29 +63,29 @@ function InstallBanner() {
   if (!show) return null;
 
   return (
-    <div className="w-full max-w-lg mb-4 p-3 rounded-xl bg-accent/10 border border-accent/20 flex items-center gap-3">
+    <div className=\"w-full max-w-lg mb-4 p-3 rounded-xl bg-accent/10 border border-accent/20 flex items-center gap-3\">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/icon-192.png" alt="" className="w-10 h-10 rounded-xl flex-shrink-0" />
-      <div className="flex-1 min-w-0">
+      <img src=\"/icon-192.png\" alt=\"\" className=\"w-10 h-10 rounded-xl flex-shrink-0\" />
+      <div className=\"flex-1 min-w-0\">
         {isIOS ? (
-          <p className="text-xs text-foreground">
-            Tap <span className="inline-flex items-center align-middle mx-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span> then <strong>&quot;Add to Home Screen&quot;</strong>
+          <p className=\"text-xs text-foreground\">
+            Tap <span className=\"inline-flex items-center align-middle mx-0.5\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\"><path d=\"M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8\"/><polyline points=\"16 6 12 2 8 6\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"15\"/></svg></span> then <strong>&quot;Add to Home Screen&quot;</strong>
           </p>
         ) : (
-          <p className="text-xs text-foreground">Install Sigil for quick access</p>
+          <p className=\"text-xs text-foreground\">Install Sigil for quick access</p>
         )}
       </div>
       {!isIOS && deferredPrompt && (
         <button
           onClick={handleInstall}
-          className="px-3 py-1.5 rounded-lg bg-accent text-white text-xs font-semibold flex-shrink-0"
+          className=\"px-3 py-1.5 rounded-lg bg-accent text-white text-xs font-semibold flex-shrink-0\"
         >
           Install
         </button>
       )}
-      <button onClick={dismiss} className="text-muted hover:text-foreground p-1 flex-shrink-0" aria-label="Dismiss">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <button onClick={dismiss} className=\"text-muted hover:text-foreground p-1 flex-shrink-0\" aria-label=\"Dismiss\">
+        <svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"none\">
+          <path d=\"M3 3l8 8M11 3l-8 8\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />
         </svg>
       </button>
     </div>
@@ -109,18 +109,17 @@ function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="w-9 h-9 rounded-xl border border-border bg-surface flex items-center justify-center
-        text-muted hover:text-foreground hover:border-accent/30 transition-colors"
-      aria-label="Toggle theme"
+      className=\"w-9 h-9 rounded-xl border border-border bg-surface flex items-center justify-center\n        text-muted hover:text-foreground hover:border-accent/30 transition-colors\"
+      aria-label=\"Toggle theme\"
     >
       {dark ? (
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\">
+          <circle cx=\"8\" cy=\"8\" r=\"3.5\" stroke=\"currentColor\" strokeWidth=\"1.5\" />
+          <path d=\"M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" />
         </svg>
       ) : (
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M14 9.2A6 6 0 016.8 2 6 6 0 1014 9.2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+        <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\">
+          <path d=\"M14 9.2A6 6 0 016.8 2 6 6 0 1014 9.2z\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinejoin=\"round\" />
         </svg>
       )}
     </button>
@@ -179,41 +178,41 @@ export default function Home() {
   // Show loading while detecting Farcaster context
   if (!isLoaded) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-accent/30 border-t-accent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-xs text-muted">Loading Sigil...</p>
+      <main className=\"min-h-screen flex items-center justify-center\">
+        <div className=\"text-center\">
+          <div className=\"w-8 h-8 border-2 border-accent/30 border-t-accent rounded-full animate-spin mx-auto mb-3\" />
+          <p className=\"text-xs text-muted\">Loading Sigil...</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center px-4 py-6 sm:py-10">
+    <main className=\"min-h-screen flex flex-col items-center px-4 py-6 sm:py-10\">
       {/* Install banner */}
       {!isInMiniApp && <InstallBanner />}
 
       {/* Header */}
-      <header className="w-full max-w-lg flex items-center justify-between mb-8">
-        <div className="flex items-center gap-3">
+      <header className=\"w-full max-w-lg flex items-center justify-between mb-8\">
+        <div className=\"flex items-center gap-3\">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/sigil.png" alt="Sigil" className="w-9 h-9 rounded-xl" />
+          <img src=\"/sigil.png\" alt=\"Sigil\" className=\"w-9 h-9 rounded-xl\" />
           <div>
-            <h1 className="text-2xl font-extrabold tracking-tight text-foreground">
-              <span className="text-accent">SIGIL</span>
+            <h1 className=\"text-2xl font-extrabold tracking-tight text-foreground\">
+              <span className=\"text-accent\">SIGIL</span>
             </h1>
-            <p className="text-xs text-muted mt-0.5">Billboard That Pays Rent &middot; sigil.bond</p>
+            <p className=\"text-xs text-muted mt-0.5\">Billboard That Pays Rent &middot; sigil.bond</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className=\"flex items-center gap-2\">
           <ThemeToggle />
           {isInMiniApp && fcUser ? (
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface border border-border">
+            <div className=\"flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface border border-border\">
               {fcUser.pfpUrl && (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={fcUser.pfpUrl} alt="" className="w-6 h-6 rounded-full" />
+                <img src={fcUser.pfpUrl} alt=\"\" className=\"w-6 h-6 rounded-full\" />
               )}
-              <span className="text-sm font-medium text-foreground">
+              <span className=\"text-sm font-medium text-foreground\">
                 {fcUser.displayName || fcUser.username || `FID ${fcUser.fid}`}
               </span>
             </div>
@@ -224,7 +223,7 @@ export default function Home() {
       </header>
 
       {/* Tabs */}
-      <nav className="w-full max-w-lg flex items-center gap-1 mb-6 bg-surface rounded-xl border border-border p-1">
+      <nav className=\"w-full max-w-lg flex items-center gap-1 mb-6 bg-surface rounded-xl border border-border p-1\">
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -241,7 +240,7 @@ export default function Home() {
       </nav>
 
       {/* Content */}
-      <div className="w-full max-w-lg space-y-6">
+      <div className=\"w-full max-w-lg space-y-6\">
         {/* Home tab: Check-in + Rewards */}
         {tab === 'home' && (
           <>
@@ -261,9 +260,9 @@ export default function Home() {
         {/* Claim tab: Calendar + ClaimSheet trigger */}
         {tab === 'claim' && (
           <section>
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-semibold text-foreground">Billboard Calendar</h2>
-              <span className="text-xs text-muted font-mono">30 days</span>
+            <div className=\"flex items-center justify-between mb-3\">
+              <h2 className=\"text-sm font-semibold text-foreground\">Billboard Calendar</h2>
+              <span className=\"text-xs text-muted font-mono\">30 days</span>
             </div>
             <Calendar
               key={calendarKey}
@@ -275,17 +274,19 @@ export default function Home() {
         )}
 
         {/* Footer */}
-        <footer className="text-center py-6 space-y-2">
-          <div className="flex items-center justify-center gap-3 text-[11px] text-muted/50">
-            <a href="/terms" className="hover:text-muted transition-colors">Terms</a>
+        <footer className=\"text-center py-6 space-y-2\">
+          <div className=\"flex items-center justify-center gap-3 text-[11px] text-muted/50\">
+            <a href=\"/terms\" className=\"hover:text-muted transition-colors\">Terms</a>
             <span>&middot;</span>
-            <a href="/privacy" className="hover:text-muted transition-colors">Privacy</a>
+            <a href=\"/privacy\" className=\"hover:text-muted transition-colors\">Privacy</a>
             <span>&middot;</span>
-            <a href="/docs" className="hover:text-muted transition-colors">API Docs</a>
+            <a href=\"/docs\" className=\"hover:text-muted transition-colors\">API Docs</a>
             <span>&middot;</span>
-            <span>sigil.bond</span>
+            <a href=\"https://farcaster.xyz/sigilbond\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"hover:text-muted transition-colors\">Farcaster</a>
+            <span>&middot;</span>
+            <a href=\"https://t.me/sigil_bond\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"hover:text-muted transition-colors\">Telegram</a>
           </div>
-          <p className="text-[10px] text-muted/30">Billboard NFT on Solana &middot; devnet</p>
+          <p className=\"text-[10px] text-muted/30\">Billboard NFT on Solana &middot; devnet</p>
         </footer>
       </div>
 
